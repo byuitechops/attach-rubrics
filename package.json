@@ -1,0 +1,32 @@
+{
+  "name": "attach-rubrics",
+  "version": "1.0.0",
+  "description": "Attach rubrics to their assignments when converting from D2L to Canvas",
+  "main": "main.js",
+  "dependencies": {
+    "canvas-api-wrapper": "^3.3.5",
+    "canvas-wrapper": "github:byuitechops/canvas-wrapper",
+    "cheerio": "^1.0.0-rc.2"
+  },
+  "devDependencies": {
+    "async": "^2.6.0",
+    "child-development-kit": "github:byuitechops/child-development-kit",
+    "tap": "^10.7.3"
+  },
+  "scripts": {
+    "start": "node ./node_modules/child-development-kit/runChild.js",
+    "inspect": "node --inspect-brk ./node_modules/child-development-kit/runChild.js",
+    "test": "tap ./node_modules/child-development-kit/runChild.js -T"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/byuitechops/attach-rubrics.git"
+  },
+  "author": "Seth Childers",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/byuitechops/attach-rubrics/issues"
+  },
+  "homepage": "https://github.com/byuitechops/attach-rubrics#readme",
+  "childType": "postImport"
+}
