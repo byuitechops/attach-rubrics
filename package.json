@@ -6,10 +6,11 @@
   "dependencies": {
     "canvas-api-wrapper": "^3.3.5",
     "canvas-wrapper": "github:byuitechops/canvas-wrapper",
-    "cheerio": "^1.0.0-rc.2"
+    "cheerio": "^1.0.0-rc.2",
+    "util": "^0.11.1"
   },
   "devDependencies": {
-    "async": "^2.6.0",
+    "async": "^2.6.1",
     "child-development-kit": "github:byuitechops/child-development-kit",
     "tap": "^10.7.3"
   },
