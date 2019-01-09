@@ -56,6 +56,8 @@ module.exports = (course, stepCallback) => {
                         console.log(rubrics);
                     }
                 });
+
+                return rubrics;
             } catch (err) {
                 throw err;
             }
@@ -74,12 +76,29 @@ module.exports = (course, stepCallback) => {
          * that contains the ID and the name of the discussion board.
          ***************************************************************/
         async function parseDiscussions(discussionArray) {
-            let discussionRubrics = []
-
             try {
-                await asyncEach(discussionArray, async discussion => {
+                let discussions = []
 
+                await asyncEach(discussionArray, async discussion => {
+                    let $ = discussion.dom;
+                    let rubricId = -1;
+                    let title = '';
+
+                    $('topics topic').each((i, el) => {
+                        rubricId = $('d2l_2p0\\:associations > d2l_2p0\\:rubric', el).text();
+                        title = $('content > title', el).text();
+
+                        if (rubricId !== '' && rubricId !== -1) {
+                            discussions.push({
+                                id: rubricId,
+                                title: title
+                            });
+                        }
+                    });
                 });
+                if (VERBOSE) console.log(discussions);
+
+                return discussions;
             } catch (err) {
                 throw err;
             }
@@ -98,7 +117,31 @@ module.exports = (course, stepCallback) => {
          * associated.
          ***************************************************************/
         async function parseDropboxes(dropboxFile) {
+            try {
+                let dropboxes = [];
 
+                let $ = dropboxFile.dom;
+                let rubricId = -1;
+                let title = '';
+
+                $('dropbox folder').each((i, el) => {
+                    rubricId = $('d2l_2p0\\:associations > d2l_2p0\\:rubric', el).text();
+                    title = $(el).attr('name');
+
+                    if (rubricId !== '' && rubricId !== -1) {
+                        dropboxes.push({
+                            id: rubricId,
+                            title: title
+                        });
+                    }
+                });
+
+                if (VERBOSE) console.log(dropboxes);
+
+                return dropboxes;
+            } catch (err) {
+                throw err;
+            }
         }
 
         /*****************************************
@@ -121,6 +164,15 @@ module.exports = (course, stepCallback) => {
             let rubrics = await createRubrics(rubricFile);
             let dropboxes = await parseDropboxes(assignmentDropboxFile);
             let discussions = await parseDiscussions(discussionFiles);
+
+            if (VERBOSE) {
+                console.log('--------------RUBRICS----------------')
+                console.log(rubrics);
+                console.log('--------------DROPBOX----------------')
+                console.log(dropboxes);
+                console.log('------------DISCUSSIONS--------------')
+                console.log(discussions);
+            }
 
             course.log('Table description', {
                 column: 'value'
